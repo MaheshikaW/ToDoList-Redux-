@@ -10,9 +10,10 @@ return((dispatch)=>{
     dispatch(deleteToDo(index))
 })
 }
-export const editTodo=(index,val)=>{
+
+export const updateTodo=(userinput,index)=>{
     return((dispatch)=>{
-        dispatch(editToDo(index,val))
+        dispatch(updateToDo(userinput,index))
     })
 }
 function addTodoList(userinput){
@@ -28,11 +29,10 @@ function deleteToDo(index){
         payload:index
     }
 }
-function editToDo(index){
+
+function updateToDo(userinput,index){
     return{
-        type:"EDIT_TODO",
-        payload:index,
-       
-       
+        type:"UPDATE_TODO",
+        payload:{userinput,index}
     }
 }

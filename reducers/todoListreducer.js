@@ -2,7 +2,8 @@
 
 const defaultState = {
   toDoList: ["task1", "task2"],
-  errMsg: "",
+
+  
   
 
 
@@ -16,13 +17,10 @@ const reducer = (state = defaultState, action) => {
 
       let userInput = action.payload
       let errMsg;
-      if (userInput === '') {
-        errMsg = "InputField is Empty";
-
-      }
+    
 
       let toDolist = [...state.toDoList, userInput]
-      state = { ...state, userInput: userInput, toDoList: toDolist, errMsg: errMsg }
+      state = { ...state, userInput: userInput, toDoList: toDolist, }
 
       break
 
@@ -34,8 +32,16 @@ const reducer = (state = defaultState, action) => {
       state = { ...state, toDoList: toDolist }
       break
     }
-    case "EDIT_TODO":{
-      console.log(action.payload)
+    
+
+    case "UPDATE_TODO":{
+      let toDoIndex = action.payload.index
+      let userInput = action.payload.userinput
+      let toDolist = [...state.toDoList]
+      toDolist.splice(toDoIndex, 1,userInput)
+      state = { ...state, toDoList: toDolist }
+      break
+      
     }
   }
   return state;

@@ -10,35 +10,37 @@ class List extends React.Component {
 
         this.state = {
             userInput: "",
+            isUpdateBtnVisible :false,
+            todoIndex:"",
+            errMsg:"",
+            successMsg:""
          
         }
         this.changeUserInput = this.changeUserInput.bind(this);
-        //this.state = {
-        // userInput: '',
-        // list: ["Task1", "Task2"],
-        // visible: false,
-        //err: "",
-        //duplicate: false,
-        //editBtn: false,
-        //successmsg: ""
-
-
-        // }
+    
 
     }
     changeUserInput(e) {
         this.setState({
             userInput: e.target.value,
+            errMsg:"",
+            successMsg:""
+            
 
         });
         
-
 
     }
 
     addTodo() {
         let userInput = this.state.userInput;
-        this.setState({userInput:''})
+        if(userInput ==''){
+            this.setState({
+                errMsg:"Input Field is Empty"
+            })
+        }
+        else{
+        this.setState({userInput:''})}
         this.props.dispatch(todolistActions.addTodo(userInput));
 
 
@@ -49,8 +51,15 @@ class List extends React.Component {
 
     }
     editTodo(index){
-        this.setState({userInput:this.props.todoList[index]})
-        this.props.dispatch(todolistActions.editTodo(index));
+        this.setState({userInput:this.props.todoList[index],isUpdateBtnVisible:true,todoIndex:index})
+        //this.props.dispatch(todolistActions.editTodo(index));
+    }
+    updateTodo(){
+        let userInput = this.state.userInput
+        let index = this.state.todoIndex
+        this.setState({isUpdateBtnVisible:false,userInput:"",successMsg:"Successfully updated"})
+       
+       this.props.dispatch(todolistActions.updateTodo(userInput,index))
     }
 
 
@@ -63,17 +72,26 @@ class List extends React.Component {
             </li>
 
         )
-      
+        let button
+      if(this.state.isUpdateBtnVisible == true ){
+        button =  <button onClick={this.updateTodo.bind(this)} >Update</button>
+      }
+      else{
+      button=  <button onClick={this.addTodo.bind(this)}>Add</button>
+
+      }
+ let errmsg = this.state.errMsg
+ let successMsg = this.state.successMsg
 
         return (
             <div>
 
                 <div className="Container">
-        <h1>{this.props.msg}</h1>
+        <h1>{errmsg}{successMsg}</h1>
                     {todoList}
 
                     <input type="text" onChange={this.changeUserInput} value={this.state.userInput} />
-                    <button onClick={this.addTodo.bind(this)}>Add</button>
+                    {button}
 
                 </div>
             </div>
