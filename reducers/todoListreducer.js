@@ -16,12 +16,12 @@ const reducer = (state = defaultState, action) => {
     case "ADD_NEWTODO": {
 
       let userInput = action.payload
-      let errMsg;
-    
+      
+     if(userInput !== ''){
 
       let toDolist = [...state.toDoList, userInput]
       state = { ...state, userInput: userInput, toDoList: toDolist, }
-
+     }
       break
 
     }
